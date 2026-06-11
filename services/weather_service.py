@@ -22,4 +22,18 @@ def fetch_weather(city_name: str) -> dict:
 
 
 if __name__ == "__main__":
-	print(fetch_weather(city))
+	data = fetch_weather(city)
+	if "error" in data:
+		print(data)
+	else:
+		city_name = data["name"]
+		temperature = data["main"]["temp"]
+		humidity = data["main"]["humidity"]
+		weather = data["weather"][0]["main"]
+		wind_speed = data["wind"]["speed"]
+
+		print(f"City: {city_name}")
+		print(f"Temperature: {temperature}°C")
+		print(f"Humidity: {humidity}%")
+		print(f"Weather: {weather}")
+		print(f"Wind Speed: {wind_speed} m/s")
