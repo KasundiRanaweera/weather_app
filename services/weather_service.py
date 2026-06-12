@@ -1,15 +1,25 @@
 import json
+import os
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import urlopen
 
-API_KEY = "d3e50f733c3431b45fb3f30d379f0f44"
 BASE_URL = "https://api.openweathermap.org/data/2.5/weather"
+DEFAULT_CITY = "Colombo"
 
-city = "Colombo"
+
+def get_api_key() -> str:
+	api_key = os.getenv("OPENWEATHER_API_KEY")
+	if not api_key:
+		raise RuntimeError(
+			"OpenWeather API key is missing. Set OPENWEATHER_API_KEY in your environment."
+		)
+	return api_key
+
 
 def fetch_weather(city_name: str) -> dict:
-	query = urlencode({"q": city_name, "appid": API_KEY, "units": "metric"})
+	api_key = get_api_key()
+	query = urlencode({"q": city_name, "appid": api_key, "units": "metric"})
 	url = f"{BASE_URL}?{query}"
 
 	try:
