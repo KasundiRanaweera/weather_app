@@ -1,22 +1,6 @@
-# Python artifacts
 __pycache__/
 *.py[cod]
 *.pyo
 *.pyd
-
-# Virtual environments
+.DS_Store
 .venv/
-venv/
-ENV/
-env/
-
-# Environment variables
-.env
-.env.*
-
-# IDE files
-.vscode/
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
