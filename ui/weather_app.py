@@ -36,6 +36,7 @@ class WeatherApp:
         self.root.title("Weather App")
         self.root.geometry("700x650")
         self.root.resizable(False, False)
+        self.root.configure(fg_color="#0f1420")
 
         self.current_theme = None
         self.is_loading = False
@@ -63,11 +64,16 @@ class WeatherApp:
             return
         self.current_theme = theme
         self.root.configure(fg_color=theme["bg"])
+        self.main_frame.configure(fg_color=theme["bg"])
+        self.search_frame.configure(fg_color=theme["bg"], border_color=theme["accent"])
+        self.weather_card.configure(fg_color=theme["secondary"], border_color=theme["accent"])
+        self.details_frame.configure(fg_color=theme["bg"])
+        self.status_label.configure(text_color="#EEEEEE")
 
     def create_widgets(self):
         """Create and layout all UI widgets."""
         # Main container with padding
-        self.main_frame = ctk.CTkFrame(self.root, fg_color="transparent")
+        self.main_frame = ctk.CTkFrame(self.root, fg_color="#0f1420", corner_radius=0)
         self.main_frame.pack(fill="both", expand=True, padx=0, pady=0)
 
         # Header section
@@ -77,21 +83,24 @@ class WeatherApp:
         self.title_label = ctk.CTkLabel(
             self.header_frame,
             text="🌍 Weather Forecast",
-            font=("Helvetica", 32, "bold"),
+            font=("Helvetica", 34, "bold"),
             text_color="#FFFFFF"
         )
         self.title_label.pack(anchor="w")
 
         # Search section
-        self.search_frame = ctk.CTkFrame(self.main_frame)
-        self.search_frame.pack(fill="x", padx=20, pady=10)
+        self.search_frame = ctk.CTkFrame(self.main_frame, fg_color="#141c2b", corner_radius=18, border_width=1, border_color="#253045")
+        self.search_frame.pack(fill="x", padx=20, pady=20)
 
         self.city_entry = ctk.CTkEntry(
             self.search_frame,
             placeholder_text="Enter city name...",
-            placeholder_text_color="#BBBBBB",
+            placeholder_text_color="#7d8c9c",
             font=("Helvetica", 14),
             height=45,
+            fg_color="#0d1622",
+            border_width=1,
+            corner_radius=12,
             text_color="#FFFFFF"
         )
         self.city_entry.pack(side="left", padx=(0, 10), fill="both", expand=True)
@@ -103,15 +112,16 @@ class WeatherApp:
             command=self.search_in_thread,
             font=("Helvetica", 14, "bold"),
             height=45,
-            width=100,
-            fg_color="#4A90E2",
-            hover_color="#3B7FC1",
+            width=110,
+            corner_radius=14,
+            fg_color="#38A3A5",
+            hover_color="#2f8c92",
             text_color="#FFFFFF"
         )
         self.search_button.pack(side="right")
 
         # Weather display card
-        self.weather_card = ctk.CTkFrame(self.main_frame, corner_radius=15)
+        self.weather_card = ctk.CTkFrame(self.main_frame, corner_radius=24, border_width=1, border_color="#2f3b54")
         self.weather_card.pack(fill="both", expand=True, padx=20, pady=10)
 
         # Weather icon and temperature section
@@ -154,7 +164,7 @@ class WeatherApp:
         self.weather_label.pack(anchor="w", pady=(5, 0))
 
         # Details section
-        self.details_frame = ctk.CTkFrame(self.weather_card, fg_color="transparent")
+        self.details_frame = ctk.CTkFrame(self.weather_card, fg_color="#0d1622", corner_radius=18)
         self.details_frame.pack(fill="x", padx=30, pady=(0, 30))
 
         # Create detail rows
@@ -167,24 +177,25 @@ class WeatherApp:
         self.status_label = ctk.CTkLabel(
             self.main_frame,
             text="Ready",
-            font=("Helvetica", 11),
-            text_color="#CCCCCC"
+            font=("Helvetica", 12),
+            text_color="#9CA3AF",
+            anchor="w"
         )
-        self.status_label.pack(pady=(0, 10))
+        self.status_label.pack(fill="x", padx=30, pady=(0, 20))
 
     def create_detail_row(self, parent: ctk.CTkFrame, label_text: str, attr_name: str, row: int):
         """Create a detail row with label and value."""
-        row_frame = ctk.CTkFrame(parent, fg_color="transparent")
-        row_frame.pack(fill="x", pady=5)
+        row_frame = ctk.CTkFrame(parent, fg_color="#142135", corner_radius=12)
+        row_frame.pack(fill="x", pady=6, padx=4)
 
         label = ctk.CTkLabel(
             row_frame,
             text=label_text,
             font=("Helvetica", 13),
-            text_color="#E4E4E4",
+            text_color="#D1D5DB",
             width=150
         )
-        label.pack(side="left")
+        label.pack(side="left", padx=(15, 0))
 
         value_label = ctk.CTkLabel(
             row_frame,
